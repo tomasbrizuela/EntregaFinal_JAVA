@@ -1,5 +1,7 @@
 package com.example.universidadSystem.universidad.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,7 +12,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
@@ -18,6 +22,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
+@Getter
+@Setter
 
 public class Direccion {
 
@@ -35,17 +41,14 @@ public class Direccion {
     @Column(nullable = false)
     private Ciudad ciudad;
 
-    @OneToOne(mappedBy = "direccion")
+    @OneToOne(mappedBy = "direccion_id")
+    @JsonBackReference
     private Universidad universidad;
 
     public Direccion(String calle, String altura, Ciudad ciudad) {
         this.calle = calle;
         this.altura = altura;
         this.ciudad = ciudad;
-    }
-
-    public Universidad getUniversidad() {
-        return universidad;
-    }
+    };
 
 }

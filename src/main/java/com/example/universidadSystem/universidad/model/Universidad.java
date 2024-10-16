@@ -1,65 +1,71 @@
 package com.example.universidadSystem.universidad.model;
 
-import java.util.UUID;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import jakarta.persistence.Column;
 
 @Entity
 @Table(name = "universidad")
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
+@Setter
+@Getter
 
 public class Universidad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "nombre")
     private String nombre;
-    @Column(nullable = false)
+
+    @Column(name = "telefono")
     private String telefono;
-    @Column(nullable = false)
+
+    @Column(name = "web")
     private String web;
-    @Column(nullable = false, unique = true)
+
+    @Column(name = "codigo")
     private String codigo;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "direccion", referencedColumnName = "id")
-    private Direccion direccion;
+    @JsonBackReference
+    private Direccion direccion_id;
 
+    @Column(name = "email")
     private String email;
 
-    public Universidad(String nombre, String telefono, String web, String codigo, Direccion direccion, String email) {
-        this.id = UUID.randomUUID().toString();
+    public Universidad(String nombre, String telefono, String web, String codigo, Direccion direccion_id,
+            String email) {
         this.nombre = nombre;
         this.telefono = telefono;
         this.web = web;
         this.codigo = codigo;
-        this.direccion = direccion;
+        this.direccion_id = direccion_id;
         this.email = email;
     }
 
     @Override
     public String toString() {
         return "Universidad [id=" + id + ", nombre=" + nombre + ", telefono=" + telefono + ", web=" + web + ", codigo="
-                + codigo + ", direccionId=" + direccion + ", email: " + email + "]";
-    }
-
-    public String getEmail() {
-        return this.email;
+                + codigo + ", direccionId=" + direccion_id + ", email: " + email + "]";
     }
 
 }

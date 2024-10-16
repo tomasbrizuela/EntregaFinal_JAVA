@@ -30,6 +30,8 @@ public class UniversidadSystemApplication implements CommandLineRunner {
 			System.out.println(uni.getEmail());
 		}
 
+		System.out.println("Http://localhost:9010/universidad/get");
+		System.out.println("Http://localhost:9010/universidad/create");
 		System.out.println("Fin...........");
 
 	}
