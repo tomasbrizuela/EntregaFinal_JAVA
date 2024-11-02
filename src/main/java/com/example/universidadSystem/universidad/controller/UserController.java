@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.universidadSystem.universidad.model.Universidad;
 import com.example.universidadSystem.universidad.services.UniversidadService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/universidad")
 @CrossOrigin(origins = "*")
@@ -32,6 +37,9 @@ public class UserController {
     }
 
     @GetMapping("/get")
+    @Operation(summary = "Obtener todas las universidades", description = "Obtener todas las universidades con información de contacto")
+    @ApiResponses(value = @ApiResponse(responseCode = "200", description = "Response Ok"))
+    @ApiResponse(responseCode = "404", description = "Bad Request")
     public ArrayList<Universidad> getUni() {
         return (ArrayList<Universidad>) universidadService.getAllUniversidad();
     }
@@ -49,7 +57,12 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateUniversidad(@PathVariable Long id, @RequestBody Universidad universidad) {
+    @Operation(summary = "Actualizar una universidad")
+    @ApiResponse(responseCode = "200", description = "Usuario actualizado con éxito")
+    @ApiResponse(responseCode = "400", description = "Bad Request")
+    public ResponseEntity<String> updateUniversidad(
+            @Parameter(description = "ID de la universidad a actualizar") @PathVariable Long id,
+            @RequestBody Universidad universidad) {
         String res = "There was an error!";
         try {
             String messageReturned = universidadService.actualizarUni(id, universidad);
