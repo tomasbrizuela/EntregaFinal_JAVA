@@ -1,6 +1,7 @@
 package com.example.universidadSystem.universidad.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.universidadSystem.universidad.model.Universidad;
+import com.example.universidadSystem.universidad.model.Usuario;
 import com.example.universidadSystem.universidad.services.UniversidadService;
+import com.example.universidadSystem.universidad.services.UserApiService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,6 +33,9 @@ public class UserController {
 
     @Autowired
     UniversidadService universidadService;
+
+    @Autowired
+    UserApiService userApiService;
 
     @GetMapping("")
     public String saludo() {
@@ -89,6 +95,11 @@ public class UserController {
             res = "Unable to delete the entry";
         }
         return res;
+    }
+
+    @GetMapping("/usuarios")
+    public List<Usuario> getUsuarios() {
+        return userApiService.getListOfUsers();
     }
 
 }
