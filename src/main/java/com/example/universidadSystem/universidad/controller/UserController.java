@@ -23,6 +23,9 @@ import com.example.universidadSystem.universidad.services.UserApiService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
@@ -44,7 +47,7 @@ public class UserController {
 
     @GetMapping("/get")
     @Operation(summary = "Obtener todas las universidades", description = "Obtener todas las universidades con información de contacto")
-    @ApiResponses(value = @ApiResponse(responseCode = "200", description = "Response Ok"))
+    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Response Ok") })
     @ApiResponse(responseCode = "404", description = "Bad Request")
     public ArrayList<Universidad> getUni() {
         return (ArrayList<Universidad>) universidadService.getAllUniversidad();
@@ -98,6 +101,19 @@ public class UserController {
     }
 
     @GetMapping("/usuarios")
+    @Operation(summary = "Obtener los usuarios del sistema", description = "Obtener todos los usuarios,")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class), examples = @ExampleObject(value = "{\"id\": 1,\r\n"
+                    + //
+                    "\"firstname\": \"John\",\r\n" + //
+                    "\"lastname\": \"Doe\",\r\n" + //
+                    "\"email\": \"johndoe@example.com\"\r\n" + //
+                    "}"))),
+            @ApiResponse(responseCode = "400", description = "Ok", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponse.class), examples = @ExampleObject(value = "{\"mensaje\": \"Error obtaining the users\", \r\n"
+                    + //
+                    "\"codigo\" : \"400\" \r\n" +
+                    "}"))) })
+
     public List<Usuario> getUsuarios() {
         return userApiService.getListOfUsers();
     }
