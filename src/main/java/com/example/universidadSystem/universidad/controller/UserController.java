@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.universidadSystem.universidad.DTO.UniversidadDTO;
 import com.example.universidadSystem.universidad.model.Universidad;
 import com.example.universidadSystem.universidad.model.Usuario;
 import com.example.universidadSystem.universidad.services.UniversidadService;
@@ -51,6 +52,12 @@ public class UserController {
     @ApiResponse(responseCode = "404", description = "Bad Request")
     public ArrayList<Universidad> getUni() {
         return (ArrayList<Universidad>) universidadService.getAllUniversidad();
+    }
+
+    @GetMapping("/getContacts")
+    @Operation(summary = "Get only the contact info of each university")
+    public List<UniversidadDTO> getContactInfo() {
+        return universidadService.getContactInfo();
     }
 
     @PostMapping("/create")

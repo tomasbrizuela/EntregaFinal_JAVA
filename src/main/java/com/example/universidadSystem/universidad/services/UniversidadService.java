@@ -1,11 +1,14 @@
 package com.example.universidadSystem.universidad.services;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.universidadSystem.universidad.DTO.UniversidadDTO;
 import com.example.universidadSystem.universidad.model.Universidad;
 import com.example.universidadSystem.universidad.repository.UniversidadRepository;
 
@@ -81,5 +84,17 @@ public class UniversidadService {
 
     public void deleteUni(Long id) {
         universidadRepository.deleteById(id);
+    }
+
+    public List<UniversidadDTO> getContactInfo() {
+        try {
+            List<Universidad> unis = universidadRepository.findAll();
+            return unis.stream()
+                    .map(uni -> new UniversidadDTO(uni.getNombre(), uni.getWeb(), uni.getEmail(), uni.getTelefono()))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
     }
 }
